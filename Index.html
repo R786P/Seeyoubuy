@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>See You Buy - Online Shopping</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Amazon Ember', Arial, sans-serif;
+        }
+
+        /* Amazon-like font stack */
+        body {
+            background-color: #EAEDF2;
+            color: #0F1111;
+            min-height: 100vh;
+        }
+
+        /* Header styling - Amazon inspired */
+        header {
+            background: linear-gradient(to bottom, #131921, #131921);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            margin-right: 20px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text span:first-child {
+            color: #FF9900;
+            font-size: 20px;
+        }
+
+        .logo-text span:last-child {
+            color: #4ECDC4;
+            font-size: 16px;
+            margin-top: -4px;
+        }
+
+        /* Search bar - Amazon style */
+        .search-bar {
+            flex: 1;
+            max-width: 700px;
+            margin: 0 15px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #FF9900;
+            border-radius: 4px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: #febd69;
+            border: none;
+            width: 45px;
+            height: 38px;
+            border-radius: 0 4px 4px 0;
+            margin-left: -45px;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background: #f3a847;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: white;
+            margin-left: 15px;
+        }
+
+        .nav-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .nav-icon span {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* Hero section - Amazon inspired */
+        .hero {
+            background: linear-gradient(to right, #131921, #131921);
+            color: white;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://placehold.co/1600x400/131921/white?text=DEALS+OF+THE+DAY') center/cover no-repeat;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .hero-btn {
+            background: #FFD814;
+            color: #0F1111;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .hero-btn:hover {
+            background: #F7CA00;
+        }
+
+        /* Features section */
+        .features {
+            padding: 40px 20px;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            font-weight: bold;
+            color: #0F1111;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #D5D9D9;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            transition: box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-color: #F7CA00;
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #FF9900;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .feature-card p {
+            color: #565959;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Products section - Amazon style */
+        .products {
+            padding: 40px 20px;
+            background: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #D5D9D9;
+            border-radius: 4px;
+            padding: 15px;
+            transition: box-shadow 0.3s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            border-color: #F7CA00;
+        }
+
+        .product-image {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            background: #F0F2F5;
+            border-radius: 4px;
+        }
+
+        .product-card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .product-card p {
+            color: #565959;
+            font-size: 13px;
+            margin-bottom: 10px;
+            height: 36px;
+            overflow: hidden;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #B12704;
+            margin-bottom: 10px;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #565959;
+            font-size: 14px;
+        }
+
+        .discount {
+            background: #B12704;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .add-to-cart {
+            background: #FFD814;
+            color: #0F1111;
+            border: none;
+            padding: 6px 0;
+            width: 100%;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #F7CA00;
+        }
+
+        /* Footer */
+        footer {
+            background: #131921;
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #37475A;
+        }
+
+        .footer-column h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #DDD;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #DDD;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .footer-column a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                margin: 15px 0 0;
+                max-width: 100%;
+            }
+            
+            .nav-icons {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .hero h1 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-icons {
+                display: none;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">👀</div>
+                <div class="logo-text">
+                    <span>See You</span>
+                    <span>Buy</span>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search products...">
+                <button><i>🔍</i></button>
+            </div>
+            <div class="nav-icons">
+                <div class="nav-icon">
+                    <div>🛒</div>
+                    <span>Cart</span>
+                </div>
+                <div class="nav-icon">
+                    <div>👤</div>
+                    <span>Account</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Deals You Can't Miss!</h1>
+            <p>Discover amazing products at unbeatable prices. Fast shipping, secure payments, and quality guarantee.</p>
+            <button class="hero-btn">Shop Now</button>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">Why Shop With Us</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>Free Delivery</h3>
+                <p>Free shipping on orders over $25. Fast and reliable delivery service.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Secure Payments</h3>
+                <p>100% secure payment processing with multiple payment options.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">↩️</div>
+                <h3>Easy Returns</h3>
+                <p>30-day return policy with no questions asked. Hassle-free returns.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>Quality Products</h3>
+                <p>Only genuine products from trusted brands with quality guarantee.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="products">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">📱</div>
+                <h3>iPhone 15 Pro Max</h3>
+                <p>Latest Apple smartphone with advanced camera and powerful performance</p>
+                <div class="original-price">$1,199</div>
+                <div class="price">$1,049</div>
+                <div class="discount">Save $150</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <div class="product-image">💻</div>
+                <h3>MacBook Air M2</h3>
+                <p>Ultra-thin laptop with all-day battery life and stunning Retina display</p>
+                <div class="original-price">$1,199</div>
+                <div class="price">$999</div>
+                <div class="discount">Save $200</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <div class="product-image">🎧</div>
+                <h3>AirPods Pro</h3>
+                <p>Active Noise Cancellation with Spatial Audio and sweat resistance</p>
+                <div class="original-price">$249</div>
+                <div class="price">$199</div>
+                <div class="discount">20% OFF</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <div class="product-image">⌚</div>
+                <h3>Apple Watch Series 9</h3>
+                <p>Advanced health features, always-on display, and cellular connectivity</p>
+                <div class="original-price">$399</div>
+                <div class="price">$349</div>
+                <div class="discount">Save $50</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <div class="product-image">📺</div>
+                <h3>Samsung 65" 4K Smart TV</h3>
+                <p>Crystal clear 4K resolution with smart features and voice control</p>
+                <div class="original-price">$699</div>
+                <div class="price">$549</div>
+                <div class="discount">Save $150</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <div class="product-image">🎧</div>
+                <h3>Sony WH-1000XM5</h3>
+                <p>Premium noise cancelling headphones with 30-hour battery life</p>
+                <div class="original-price">$399</div>
+                <div class="price">$329</div>
+                <div class="discount">Save $70</div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Get to Know Us</h3>
+                <ul>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">About See You Buy</a></li>
+                    <li><a href="#">Investor Relations</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Make Money with Us</h3>
+                <ul>
+                    <li><a href="#">Sell on See You Buy</a></li>
+                    <li><a href="#">Become an Affiliate</a></li>
+                    <li><a href="#">Advertise Your Products</a></li>
+                    <li><a href="#">Self-Publish with Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>See You Buy Payment Products</h3>
+                <ul>
+                    <li><a href="#">See You Buy Business Card</a></li>
+                    <li><a href="#">Shop with Points</a></li>
+                    <li><a href="#">Reload Your Balance</a></li>
+                    <li><a href="#">See You Buy Currency Converter</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Let Us Help You</h3>
+                <ul>
+                    <li><a href="#">Your Account</a></li>
+                    <li><a href="#">Your Orders</a></li>
+                    <li><a href="#">Shipping Rates & Policies</a></li>
+                    <li><a href="#">Returns & Replacements</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2024 See You Buy, Inc. or its affiliates. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add to cart functionality
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                const price = productCard.querySelector('.price').textContent;
+                
+                // Create cart notification
+                const notification = document.createElement('div');
+                notification.innerHTML = `
+                    <div style="position: fixed; top: 80px; right: 20px; background: #FFD814; color: #0F1111; padding: 15px 20px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; font-weight: bold;">
+                        Added to Cart: ${productName} - ${price}
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+                
+                // Update cart icon (visual feedback)
+                const cartIcon = document.querySelector('.nav-icon div');
+                if (cartIcon) {
+                    cartIcon.textContent = '🛒';
+                    cartIcon.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        cartIcon.style.animation = '';
+                    }, 500);
+                }
+            });
+        });
+
+        // Search functionality
+        document.querySelector('.search-bar input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.toLowerCase();
+                if (searchTerm) {
+                    alert(`Searching for: ${searchTerm}\n(Implementation would filter products in a real app)`);
+                }
+            }
+        });
+
+        // Add CSS for shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
+
