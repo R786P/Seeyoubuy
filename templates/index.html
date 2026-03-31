@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeeYouBuy - Best Affiliate Deals</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🛒 SeeYouBuy</h1>
+            <p>Best Deals • Handpicked Products • Save Money</p>
+            <a href="/admin" class="admin-link"><i class="fas fa-lock"></i> Admin</a>
+        </div>
+    </header>
+
+    <div class="filters container">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="electronics">📱 Electronics</button>
+        <button class="filter-btn" data-category="fashion">👕 Fashion</button>
+        <button class="filter-btn" data-category="home">🏠 Home</button>
+        <button class="filter-btn" data-category="deals">🔥 Hot Deals</button>
+    </div>
+
+    <div class="deal-banner container" id="dealBanner" style="display:none;">
+        <span class="badge">🔥 Deal of the Day</span>
+        <div class="deal-content" id="dealContent"></div>
+    </div>
+
+    <main class="container">
+        <div class="products-grid" id="productsGrid">
+            <div class="loading">Loading amazing deals...</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>🛒 SeeYouBuy</h4>
+                    <p>Curated deals and handpicked products to help you save money every day.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="/">Home</a>
+                    <a href="/admin">Admin Panel</a>
+                    <a href="#" onclick="alert('Coming Soon!')">About Us</a>
+                    <a href="#" onclick="alert('Coming Soon!')">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <a href="#" onclick="filterProducts('electronics')">Electronics</a>
+                    <a href="#" onclick="filterProducts('fashion')">Fashion</a>
+                    <a href="#" onclick="filterProducts('home')">Home & Living</a>
+                    <a href="#" onclick="filterProducts('deals')">Hot Deals</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Stay Updated</h4>
+                    <p>Get daily deals delivered to your inbox</p>
+                    <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 SeeYouBuy. All rights reserved.</p>
+                <p class="affiliate-disclosure">
+                    <strong>Disclosure:</strong> We are a participant in affiliate advertising programs. 
+                    When you buy through links on our site, we may earn an affiliate commission at no extra cost to you.
+                </p>
+                <div class="footer-links">
+                    <a href="#" onclick="alert('Privacy Policy - Coming Soon')">Privacy Policy</a>
+                    <a href="#" onclick="alert('Terms of Service - Coming Soon')">Terms of Service</a>
+                    <a href="#" onclick="alert('Disclaimer - Coming Soon')">Disclaimer</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
