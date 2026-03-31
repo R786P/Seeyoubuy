@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - SeeYouBuy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container { max-width: 800px; margin: 2rem auto; padding: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.75rem; border: 2px solid #ddd; border-radius: 8px;
+            font-size: 1rem; box-sizing: border-box;
+        }
+        .form-group input:focus { border-color: #667eea; outline: none; }
+        .btn-primary { background: #667eea; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+        .btn-primary:hover { background: #5568d3; }
+        .btn-danger { background: #e74c3c; color: white; padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; }
+        .message { padding: 1rem; border-radius: 8px; margin-bottom: 1rem; display: none; }
+        .message.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .products-list { margin-top: 2rem; }
+        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border: 1px solid #eee; border-radius: 8px; margin-bottom: 0.5rem; }
+        .product-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; }
+        .product-info { flex: 1; margin-left: 1rem; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: #f8f9fa; padding: 1rem; border-radius: 8px; text-align: center; }
+        .stat-card .number { font-size: 1.5rem; font-weight: bold; color: #667eea; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>⚙️ Admin Panel</h1>
+            <a href="/">← Back to Site</a>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <!-- Stats -->
+        <div class="stats" id="stats">
+            <div class="stat-card"><div class="number" id="totalProducts">-</div><div>Total Products</div></div>
+            <div class="stat-card"><div class="number" id="categories">-</div><div>Categories</div></div>
+            <div class="stat-card"><div class="number" id="activeDeals">-</div><div>Active Deals</div></div>
+        </div>
+
+        <!-- Message Box -->
+        <div class="message" id="message"></div>
+
+        <!-- Add Product Form -->
+        <form id="addProductForm">
+            <h3>➕ Add New Product</h3>
+            
+            <div class="form-group">
+                <label>Product Name *</label>
+                <input type="text" name="name" required placeholder="e.g., Wireless Earbuds Pro">
+            </div>
+
+            <div class="form-group">
+                <label>Price *</label>
+                <input type="text" name="price" required placeholder="e.g., ₹999">
+            </div>
+
+            <div class="form-group">
+                <label>Original Price (optional)</label>
+                <input type="text" name="original_price" placeholder="e.g., ₹2999">
+            </div>
+
+            <div class="form-group">
+                <label>Image URL *</label>
+                <input type="url" name="image" required placeholder="https://example.com/image.jpg">
+            </div>
+
+            <div class="form-group">
+                <label>Affiliate Link *</label>
+                <input type="url" name="affiliate_link" required placeholder="https://amazon.in/dp/XXX?tag=your-id">
+            </div>
+
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category">
+                    <option value="electronics">📱 Electronics</option>
+                    <option value="fashion">👕 Fashion</option>
+                    <option value="home">🏠 Home & Kitchen</option>
+                    <option value="beauty">💄 Beauty</option>
+                    <option value="other">📦 Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Deal Type</label>
+                <select name="deal_type">
+                    <option value="normal">⭐ Normal</option>
+                    <option value="hot">🔥 Hot Deal</option>
+                    <option value="lightning">⚡ Lightning Deal</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Description (optional)</label>
+                <textarea name="description" rows="3" placeholder="Short description..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary">➕ Add Product</button>
+        </form>
+
+        <!-- Products List -->
+        <div class="products-list">
+            <h3>📦 Existing Products</h3>
+            <div id="productsList">Loading...</div>
+        </div>
+    </div>
+
+    <script>
+        // Load stats
+        async function loadStats() {
+            const res = await fetch('/api/stats');
+            const stats = await res.json();
+            document.getElementById('totalProducts').textContent = stats.total_products;
+            document.getElementById('categories').textContent = stats.categories.length;
+            document.getElementById('activeDeals').textContent = stats.active_deals;
+        }
+
+        // Load products list for admin
+        async function loadAdminProducts() {
+            const res = await fetch('/api/products');
+            const products = await res.json();
+            const container = document.getElementById('productsList');
+            
+            if (products.length === 0) {
+                container.innerHTML = '<p>No products yet. Add your first one!</p>';
+                return;
+            }
+            
+            container.innerHTML = products.map(p => `
+                <div class="product-item">
+                    <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/50'">
+                    <div class="product-info">
+                        <strong>${p.name}</strong><br>
+                        <small>${p.price} ${p.original_price ? `<s>${p.original_price}</s>` : ''}</small>
+                    </div>
+                    <button class="btn-danger" onclick="deleteProduct('${p.id}')">🗑️</button>
+                </div>
+            `).join('');
+        }
+
+        // Add product
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const data = Object.fromEntries(new FormData(form));
+            
+            const res = await fetch('/api/products', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            
+            const result = await res.json();
+            showMessage(result.message || result.error, res.ok ? 'success' : 'error');
+            
+            if (res.ok) {
+                form.reset();
+                loadStats();
+                loadAdminProducts();
+            }
+        });
+
+        // Delete product
+        async function deleteProduct(id) {
+            if (!confirm('Delete this product?')) return;
+            
+            const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+            const result = await res.json();
+            showMessage(result.message, 'success');
+            loadStats();
+            loadAdminProducts();
+        }
+
+        // Show message
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = `message ${type}`;
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
+        }
+
+        // Init
+        loadStats();
+        loadAdminProducts();
+    </script>
+</body>
+</html>
