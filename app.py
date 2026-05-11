@@ -139,6 +139,18 @@ def track_click(product_id):
     
     return redirect('/')
 
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+@app.route('/disclaimer')
+def disclaimer():
+    return render_template('disclaimer.html')
+    
 if __name__ == '__main__':
     init_db()
     app.run(debug=True, host='0.0.0.0', port=int(os.getenv('PORT', 5000)))
