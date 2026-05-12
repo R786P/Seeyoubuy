@@ -169,7 +169,36 @@ def terms():
 @app.route('/disclaimer')
 def disclaimer():
     return render_template('disclaimer.html')
+
+@app.route('/admin/orders')
+def admin_orders():
+    """Order tracking page"""
+    return render_template('admin_orders.html')
+
+@app.route('/api/orders', methods=['GET'])
+def get_orders():
+    """Get all orders (placeholder - actual implementation depends on your tracking system)"""
+    # Placeholder data - aap baad me actual orders database se fetch karoge
+    orders = [
+        {
+            'id': 'ORD001',
+            'product': 'iPhone 15 Pro',
+            'customer': 'Rahul Kumar',
+            'status': 'Shipped',
+            'date': '2026-05-10',
+            'tracking_id': 'TRK123456'
+        },
+        {
+            'id': 'ORD002',
+            'product': 'AirPods Pro',
+            'customer': 'Priya Singh',
+            'status': 'Delivered',
+            'date': '2026-05-08',
+            'tracking_id': 'TRK789012'
+        }
+    ]
+    return jsonify(orders)
     
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True, host='0.0.0.0', port=int(os.getenv('PORT', 5000)))
+    app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', 5000)))
